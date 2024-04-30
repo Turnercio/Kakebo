@@ -21,4 +21,4 @@ def test_ingreso_cantidad_debe_ser_num():
     with pytest.raises(TypeError):
         movimiento = Ingreso("Loteria", date.today(), "lola")
     movimiento = Ingreso("Loteria", date(2024, 1, 5), 1000)
-    movimiento = Ingreso("Loteria", date(2024, 1, 5), 1000,1)
+    movimiento = Ingreso("Loteria", date(2024, 1, 5), 1000.1)
