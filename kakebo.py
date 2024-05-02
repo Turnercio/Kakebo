@@ -7,6 +7,7 @@ class Ingreso:
         self.fecha = fecha
         self.cantidad = cantidad
         self.__validar_tipos()
+        self.validar_inputs()
 
 
     def __validar_tipos(self):
@@ -16,5 +17,15 @@ class Ingreso:
             raise TypeError("Fecha tiene que tener el formato correcto: AAAA-MM-DD")
         if not (isinstance(self.cantidad, float) or isinstance(self.cantidad, int)):
             raise TypeError("Cantidad tiene que ser un numero")
+
+
+    def validar_inputs(self):
+        if self.cantidad == 0:
+            raise ValueError("La cantidad no puede ser 0")
+        if self.concepto == "":
+            raise ValueError("El concepto no puede estar vacio")   
+        if self.fecha > date.today():
+            raise ValueError("La fecha no puede ser posterior al dia de hoy")       
+   
 
 

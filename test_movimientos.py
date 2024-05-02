@@ -22,3 +22,15 @@ def test_ingreso_cantidad_debe_ser_num():
         movimiento = Ingreso("Loteria", date.today(), "lola")
     movimiento = Ingreso("Loteria", date(2024, 1, 5), 1000)
     movimiento = Ingreso("Loteria", date(2024, 1, 5), 1000.1)
+
+def test_cantidad_no_puede_ser_negativo():
+    with pytest.raises(ValueError):
+        movimiento = Ingreso("loteria", date(2024, 1, 5), 0)
+
+def test_concepto_no_puede_estar_vacio():
+    with pytest.raises(ValueError):
+        movimiento = Ingreso("", date(2024, 12, 2), 1000)
+
+def test_validar_fecha_posterior_hoy():
+    with pytest.raises(ValueError):
+        movimiento = Ingreso("Loteria", date(2025, 1, 5), 1000.1)
