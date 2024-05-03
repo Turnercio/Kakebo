@@ -1,5 +1,6 @@
 from datetime import date
-from kakebo import Ingreso
+from kakebo import Ingreso, categoria_gastos, Gasto
+from enum import Enum
 import pytest
 
 def test_instanciar_ingresos():
@@ -38,3 +39,15 @@ def test_validar_fecha_posterior_hoy():
 def test_validar_longitud_concepto():
     with pytest.raises(ValueError):
         movimiento = Ingreso("lo", date(2024, 1, 1), 1000)
+
+def test_crear_gasto():
+    movimiento = Gasto("Recibo del agua", date(2024, 1, 4), 70, categoria_gastos.NECESIDAD)
+    assert movimiento.concepto == "Recibo del agua"
+    assert movimiento.fecha == date(2024, 1, 4)
+    assert movimiento.cantidad == 70
+    assert movimiento.categoria == categoria_gastos.NECESIDAD
+
+def test_gasto_categoria_tipo_correcto():
+    with pytest.raises(TypeError):
+        movimiento = Gasto("Recibo del agua", date(2024, 1, 4), 70, "necesidad")
+    
