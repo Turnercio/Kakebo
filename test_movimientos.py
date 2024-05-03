@@ -34,3 +34,7 @@ def test_concepto_no_puede_estar_vacio():
 def test_validar_fecha_posterior_hoy():
     with pytest.raises(ValueError):
         movimiento = Ingreso("Loteria", date(2025, 1, 5), 1000.1)
+
+def test_validar_longitud_concepto():
+    with pytest.raises(ValueError):
+        movimiento = Ingreso("lo", date(2024, 1, 1), 1000)

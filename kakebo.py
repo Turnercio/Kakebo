@@ -22,7 +22,7 @@ class Ingreso:
     def validar_inputs(self):
         if self.cantidad == 0:
             raise ValueError("La cantidad no puede ser 0")
-        if self.concepto == "":
+        if self.concepto == "" or len(self.concepto) < 5:
             raise ValueError("El concepto no puede estar vacio")   
         if self.fecha > date.today():
             raise ValueError("La fecha no puede ser posterior al dia de hoy")       
