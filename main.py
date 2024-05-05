@@ -40,4 +40,4 @@ if tipo == "i":
     fecha = input("Fecha (YYYY-MM-DD): ")
     while not validar_fecha(fecha):
         print("Introduzca una fecha valida (YYYY-MM-DD) y no futura")
-        fecha == input("Fecha (YYYY-MM-DD): ")
+        fecha = input("Fecha (YYYY-MM-DD): ")
