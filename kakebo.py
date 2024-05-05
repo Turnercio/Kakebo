@@ -9,6 +9,7 @@ class Ingreso:
         self.cantidad = cantidad
         self.__validar_tipos()
         self.validar_inputs()
+        
     def __validar_tipos(self):
         if not isinstance(self.concepto, str):
             raise TypeError("Concepto debe ser cadena de texto")

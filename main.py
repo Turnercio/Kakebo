@@ -18,26 +18,76 @@
 """
 from kakebo import *
 from datetime import date
+from enum import Enum
+
+lista_ingreso = []
+lista_gastos = []
 
 def validar_fecha(fecha):
     try:
         return date.fromisoformat(fecha) <= date.today()
     except ValueError:
         return False
-
-tipo = input("Ingreso, Gasto o Salir (I/G/S)").lower()
-
-while tipo not in ("i", "g", "s"):
-    print("Teclea I, G o S")
+while True:
     tipo = input("Ingreso, Gasto o Salir (I/G/S)").lower()
 
-if tipo == "i":
-    concepto = input("Concepto: ")
-    while len(concepto) < 5:
-        print("El concepto debe de ser mayor a 5 caracteres")
-        concepto = input("Concepto: ")
+    while tipo not in ("i", "g", "s"):
+        print("Teclea I, G o S")
+        tipo = input("Ingreso, Gasto o Salir (I/G/S)").lower()
 
-    fecha = input("Fecha (YYYY-MM-DD): ")
-    while not validar_fecha(fecha):
-        print("Introduzca una fecha valida (YYYY-MM-DD) y no futura")
+    if tipo == "i":
+        concepto = input("Concepto: ")
+        while len(concepto) < 5:
+            print("El concepto debe de ser mayor a 5 caracteres")
+            concepto = input("Concepto: ")
+        print (concepto)   
+        
         fecha = input("Fecha (YYYY-MM-DD): ")
+        while not validar_fecha(fecha):
+            print("Introduzca una fecha valida (YYYY-MM-DD) y no futura")
+            fecha = input("Fecha (YYYY-MM-DD): ")
+        fecha = date.fromisoformat(fecha)
+
+        cantidad = float(input("Introduzca la cantidad del ingreso: "))
+        while cantidad == 0:
+            print("La cantidad no puede ser 0, introduce una cantidad valida: ")
+            cantidad = float(input("Introduzca la cantidad del ingreso: "))
+        cantidad = "{:.2f}".format(cantidad)
+    
+        lista_ingreso.append(Ingreso(concepto, fecha, cantidad))
+
+    if tipo == "g":
+        concepto = input("Concepto: ")
+        while len(concepto) < 5:
+            print("El concepto debe de ser mayor a 5 caracteres")
+            concepto = input("Concepto: ")
+        print (concepto)   
+        
+        fecha = input("Fecha (YYYY-MM-DD): ")
+        while not validar_fecha(fecha):
+            print("Introduzca una fecha valida (YYYY-MM-DD) y no futura")
+            fecha = input("Fecha (YYYY-MM-DD): ")
+        fecha = date.fromisoformat(fecha)
+
+        cantidad = float(input("Introduzca la cantidad del ingreso: "))
+        while cantidad == 0:
+            print("La cantidad no puede ser 0, introduce una cantidad valida: ")
+            cantidad = float(input("Introduzca la cantidad del ingreso: "))
+
+        categoria = input("Introduce una categoria (Necesidad = 1, Cultura = 2, Ocio Vicio = 3, Extras = 4)")
+        while categoria not in ('1', '2', '3', '4'):
+            print("introduce una categoria correcta: ")
+            categoria = input("Introduce una categoria (Necesidad = 1, Cultura = 2, Ocio Vicio = 3, Extras = 4)")
+
+
+        lista_gastos.append(Gasto(concepto, fecha, cantidad, categoria))  
+    
+    
+    if tipo == "s":
+    
+        total_ingresos = 0
+        for ingreso in lista_ingreso:
+            total_ingresos = total_ingresos + ingreso.cantidad
+
+
+        print (f"El total de los ingresos asciende a {total_ingresos}")
