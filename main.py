@@ -16,7 +16,7 @@
 
 7. Procesar la lista de movimientos para obtener total de ingresos, gastos y saldo final
 """
-from kakebo import *
+from kakebo import *; categoria_gastos
 from datetime import date
 from enum import Enum
 
@@ -28,6 +28,8 @@ def validar_fecha(fecha):
         return date.fromisoformat(fecha) <= date.today()
     except ValueError:
         return False
+
+
 while True:
     tipo = input("Ingreso, Gasto o Salir (I/G/S)").lower()
 
@@ -75,9 +77,10 @@ while True:
             cantidad = float(input("Introduzca la cantidad del ingreso: "))
 
         categoria = input("Introduce una categoria (Necesidad = 1, Cultura = 2, Ocio Vicio = 3, Extras = 4)")
-        while categoria not in ('1', '2', '3', '4'):
+        while categoria not in ("1", "2", "3", "4"):
             print("introduce una categoria correcta: ")
             categoria = input("Introduce una categoria (Necesidad = 1, Cultura = 2, Ocio Vicio = 3, Extras = 4)")
+        categoria_int = int(categoria)
 
 
         lista_gastos.append(Gasto(concepto, fecha, cantidad, categoria))  
@@ -86,8 +89,16 @@ while True:
     if tipo == "s":
     
         total_ingresos = 0
+        total_gastos = 0
+        balance = 0
+
         for ingreso in lista_ingreso:
             total_ingresos = total_ingresos + ingreso.cantidad
-
-
         print (f"El total de los ingresos asciende a {total_ingresos}")
+
+        for gasto in lista_gastos:
+            total_gastos = total_gastos + gasto.cantidad
+        print (f"El total de los gastos asciende a {total_gastos}")
+
+        balance = (total_ingresos - total_gastos)
+        print (f"El balance total asciende a {balance}")

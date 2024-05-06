@@ -34,7 +34,7 @@ class Gasto(Ingreso):
     def __init__(self, concepto, fecha, cantidad, categoria):
         super().__init__(concepto, fecha, cantidad)
         self.categoria = categoria
-        self.validar_categoria()
+        """self.validar_categoria()"""
         
     def validar_categoria(self): 
         if not isinstance(self.categoria, categoria_gastos):
