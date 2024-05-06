@@ -80,14 +80,14 @@ while True:
         while categoria not in ("1", "2", "3", "4"):
             print("introduce una categoria correcta: ")
             categoria = input("Introduce una categoria (Necesidad = 1, Cultura = 2, Ocio Vicio = 3, Extras = 4)")
-        categoria_int = int(categoria)
+        categoria = categoria_gastos(int(categoria))
 
 
         lista_gastos.append(Gasto(concepto, fecha, cantidad, categoria))  
     
     
-    if tipo == "s":
-    
+    else:
+
         total_ingresos = 0
         total_gastos = 0
         balance = 0
