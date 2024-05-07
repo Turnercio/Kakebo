@@ -28,7 +28,7 @@ class Ingreso:
             raise ValueError("La fecha no puede ser posterior al dia de hoy")       
         
     def __repr__(self):
-        return f"Ingreso: {self.fecha} {self.concepto}{self.cantidad:2f}"
+        return f"Ingreso: {self.fecha} {self.concepto} {self.cantidad:.2f}"
    
 class Gasto(Ingreso):
     def __init__(self, concepto, fecha, cantidad, categoria):
@@ -41,7 +41,7 @@ class Gasto(Ingreso):
             raise TypeError("Introduce una categoria valida")
 
     def __repr__(self):
-        return f"Gasto {self.categoria.name}: {self.fecha} {self.concepto} {self.cantidad:2f}"
+        return f"Gasto {self.categoria.name}: {self.fecha} {self.concepto} {self.cantidad:.2f}"
 
 
 class categoria_gastos(Enum):

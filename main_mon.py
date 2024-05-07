@@ -19,7 +19,8 @@
 from kakebo import *; categoria_gastos
 from datetime import date
 
-lista_movimientos = []
+lista_ingresos = []
+lista_gastos = []
 
 def validarFecha(fecha):
     try:
@@ -45,6 +46,46 @@ def es_categoria_valida(cadena):
         return es_entero(cadena) and int(cadena) in[categoria.value for categoria in categoria_gastos]
     else:
         return False
+def input_concepto():
+    concepto = input("Concepto: ")
+    while len(concepto) < 5:
+        print("El concepto debe tener al menos 5 caracteres")
+        concepto = input("Concepto: ")
+    return concepto
+def input_fecha():
+    fecha = input("Fecha (YYYY-MM-DD): ") 
+    while not validarFecha(fecha):
+        print("Introduzca una fecha valida (YYYY-MM-DD) y no futura")
+        fecha = input("Fecha (YYYY-MM-DD): ")
+    fecha = date.fromisoformat (fecha)  
+    return fecha
+def input_cantidad():
+    cantidad = input("Cantidad: ")
+    while not es_float_positivo(cantidad):
+        print("introduce un número positivo")
+        cantidad = input("Cantidad: ")
+    cantidad = float(cantidad)
+    return cantidad
+def input_categoria():
+    print ("Lista de categoria de gastos: ")
+    for categoria in categoria_gastos:
+        print(f"{categoria.value} - {categoria.name}")
+    cat = input("Elige una de las categorias a continuación: ")
+    while not es_categoria_valida(cat):
+        print("La categoria no es correcta: ")
+        print ("Lista de categoria de gastos: ")
+        for categoria in categoria_gastos:
+            print(f"{categoria.value} - {categoria.name}")
+        cat = input("Elige una de las categorias a continuación: ")
+    cat= categoria_gastos(int(cat))
+    return cat
+def obtener_total(lista):
+    total = 0
+    for movimiento in lista:
+        total += movimiento.cantidad
+    return total
+    
+
 
 continuar = True
 while continuar == True:
@@ -55,58 +96,27 @@ while continuar == True:
         tipo = input("Ingreso, Gasto o Salir (I/G/S)").lower()
 
     if tipo == 'i':
-        concepto = input("Concepto: ")
-        while len(concepto) < 5:
-            print("El concepto debe tener al menos 5 caracteres")
-            concepto = input("Concepto: ")
-        
-        fecha = input("Fecha (YYYY-MM-DD): ") 
-        while not validarFecha(fecha):
-            print("Introduzca una fecha valida (YYYY-MM-DD) y no futura")
-            fecha = input("Fecha (YYYY-MM-DD): ")
-        fecha = date.fromisoformat (fecha)
+        concepto = input_concepto()
+        fecha = input_fecha()
+        cantidad = input_cantidad()
 
-        cantidad = input("Cantidad: ")
-        while not es_float_positivo(cantidad):
-            print("introduce un número positivo")
-            cantidad = input("Cantidad: ")
-        cantidad = float(cantidad)
-
-        lista_movimientos.append(Ingreso(concepto, fecha, cantidad))
+        lista_ingresos.append(Ingreso(concepto, fecha, cantidad))
 
     elif tipo == "g":
-        concepto = input("Concepto: ")
-        while len(concepto) < 5:
-            print("El concepto debe tener al menos 5 caracteres")
-            concepto = input("Concepto: ")
-        
-        fecha = input("Fecha (YYYY-MM-DD): ") 
-        while not validarFecha(fecha):
-            print("Introduzca una fecha valida (YYYY-MM-DD) y no futura")
-            fecha = input("Fecha (YYYY-MM-DD): ")
-        fecha = date.fromisoformat (fecha)   
+        concepto = input_concepto()
+        fecha = input_fecha()
+        cantidad = input_cantidad()
+        categoria = input_categoria()
 
-        cantidad = input("Cantidad: ")
-        while not es_float_positivo(cantidad):
-            print("introduce un número positivo")
-            cantidad = input("Cantidad: ")
-        cantidad = float(cantidad)
-
-        print ("Lista de categoria de gastos: ")
-        for categoria in categoria_gastos:
-            print(f"{categoria.value} - {categoria.name}")
-        cat = input("Elige una de las categorias a continuación: ")
-        while not es_categoria_valida(cat):
-            print("La categoria no es correcta: ")
-            print ("Lista de categoria de gastos: ")
-            for categoria in categoria_gastos:
-                print(f"{categoria.value} - {categoria.name}")
-            cat = input("Elige una de las categorias a continuación: ")
-        cat= categoria_gastos(int(cat))
-
-        lista_movimientos.append(  Gasto(concepto, fecha, cantidad, cat))
+        lista_gastos.append(  Gasto(concepto, fecha, cantidad, categoria))
 
     elif tipo == "s":
         continuar = False
 
-print (lista_movimientos)
+total_ingresos = obtener_total(lista_ingresos)
+total_gastos = obtener_total(lista_gastos)
+saldo = total_ingresos - total_gastos
+
+print (f"El total de los ingresos asciende a: {total_ingresos:10.2f} €")
+print (f"El total de gastos asciende a:       {total_gastos:10.2f} €")
+print (f"El saldo total asciende a:           {saldo:10.2f} €")
